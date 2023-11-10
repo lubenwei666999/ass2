@@ -1,0 +1,109 @@
+﻿@{
+    Layout = null;
+}
+@using PagedList;
+@using PagedList.Mvc;
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Historical order</title>
+    <!-- Introduce the Bootstrap style -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.0/css/bootstrap.min.css" />
+    <link href="~/Css/footer.css" rel="stylesheet" />
+
+    <style>
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(../../img/pic1.jpg);
+        }
+
+        .all {
+            width: 70%;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+
+        .DingDan {
+            padding: 10px;
+            background: #fff;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="all">
+        <div class="DingDan">
+            <table class="table">
+                <tr>
+                    <th>Order Number:</th>
+                    <th>subscriber:</th>
+                    <th>Check-in ID card:</th>
+                    <th>Room Type:</th>
+                    <th>Check-in Time:</th>
+                    <th>Check-out time:</th>
+                    <th>Total price:</th>
+                    <th>Status:</th>
+                </tr>
+                @foreach (var order in ViewBag.OrderRecord)
+                {
+                    <tr>
+                        <td>@order.CustomerID</td>
+                        <td>@order.UserInfo.Username</td>
+                        <td>@order.CheckInID</td>
+                        <td>@order.RoomType.Type</td>
+                        <td>@order.ChecklnDate.ToString("yyyy/MM/dd")</td>
+                        <td>@order.CheckOutDate.ToString("yyyy/MM/dd")</td>
+                        <td>@order.TotalPrice.ToString("C0")</td>
+                        @if (order.EmployeeID == null)
+                        {
+                            <td class="badge rounded-pill bg-secondary">Be booked</td>
+                        }
+                        else if (order.EmployeeID != null)
+                        {
+                            <td class="badge rounded-pill bg-success">Checked in</td>
+                            foreach (var trans in order.Transactions)
+                            {
+                                if (trans.Type == "Check out")
+                                {
+                                    <td class="badge rounded-pill text-bg-warning">Left the hotel</td>
+                                    break;
+                                }
+                            }
+                        }
+                    </tr>
+                }
+            </table>
+            <div role="group" style="text-align:center;">
+                <button type="button" class="btn btn-secondary @(ViewBag.CurrentPage > 1 ? "" : "disabled")"
+                        onclick="location.href='@Url.Action("OrderRecord", new { page = ViewBag.CurrentPage - 1, pageSize = ViewBag.OrderRecord.PageSize })'">
+                    Previous
+                </button>
+                @for (int i = 1; i <= ViewBag.PageCount; i++)
+                {
+                    <button type="button" class="btn btn-secondary @(i == ViewBag.CurrentPage ? "active" : "")"
+                            onclick="location.href='@Url.Action("OrderRecord", new { page = i, pageSize = ViewBag.OrderRecord.PageSize })'">
+                        @i
+                        </button>
+                    }
+                <button type="button"
+                        class="btn btn-secondary @(ViewBag.CurrentPage < ViewBag.PageCount ? "" : "disabled")"
+                        onclick="location.href='@Url.Action("OrderRecord", new { page = ViewBag.CurrentPage + 1, pageSize = ViewBag.OrderRecord.PageSize })'">
+                    Next page
+                </button>
+                <a class="btn btn-secondary" href="/Home/Index">Back to home page</a>
+            </div>
+        </div>
+
+    </div>
+    <footer class="site-footer">
+        <div class="container">
+            <p class="colophon"> If you have any questions, please contact the manager.&emsp; Name :Lucy &emsp; Telephone number:18830470361&emsp;  e-mail:1102273077@qq.com </p>
+        </div>
+    </footer> <!-- .site-footer -->
+</body>
+
+</html>

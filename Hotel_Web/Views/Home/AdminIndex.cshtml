@@ -1,0 +1,134 @@
+﻿<style>
+    #message {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+    }
+</style>
+<div class="card">
+    <form action="/Home/AdminIndex" method="get">
+        <h3>Occupancy management</h3>
+        <select class="form-select form-select-sm" style="width:100px;" name="Type">
+            <option value="姓名">Name</option>
+            <option value="身份证">Identification card</option>
+        </select><input class="form-control form-control-sm" style="width:500px;" type="text" name="Check" required>
+        <input class="btn btn-outline-primary" type="submit" value="inquire">
+    </form>
+    <table class="table">
+        <tr>
+            <th>#</th>
+            <th>user</th>
+            <th>Identification card</th>
+            <th>Room type</th>
+            <th>Check-in time</th>
+            <th>Check-out time</th>
+            <th>Cope with</th>
+            <th>Controls</th><!-- edit -->
+        </tr>
+        @foreach (var item in ViewBag.CurrentUser)
+        {
+            <tr>
+                <td>@item.CustomerID</td>
+                <td>@item.UserInfo.Username</td>
+                <td>@item.UserInfo.IDCardNumber</td>
+                <td>@item.RoomType.Type</td>
+                <td>@item.ChecklnDate.ToString("yyyy-MM-dd")</td>
+                <td>@item.CheckOutDate.ToString("yyyy-MM-dd")</td>
+                <td>@item.TotalPrice.ToString("C0")</td>
+                <td>
+
+                    <a class="btn btn-outline-success" href="/Home/CheckIn?CustomerID=@item.CustomerID">Check in</a>
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdropLive" data-id="@item.CustomerID">
+                        unsubscribe
+                    </button>
+                </td>
+            </tr>
+        }
+    </table>
+    <!-- edit -->
+    <div role="group" style="text-align:center;">
+        <button type="button" class="btn btn-secondary @(Model.HasPreviousPage ? "" : "disabled")"
+                onclick="location.href='@Url.Action("AdminIndex", new { page = Model.PageNumber - 1 })'">
+            Previous
+        </button>
+        @for (int i = 1; i <= Model.PageCount; i++)
+        {
+            <button type="button" class="btn btn-secondary @(Model.PageNumber == i ? "active" : "")"
+                    onclick="location.href='@Url.Action("AdminIndex", new { page = i })'">
+                @i
+                </button>
+            }
+        <button type="button" class="btn btn-secondary @(Model.HasNextPage ? "" : "disabled")"
+                onclick="location.href='@Url.Action("AdminIndex", new { page = Model.PageNumber + 1 })'">
+            Next page
+        </button>
+    </div>
+
+
+</div>
+<div class="modal fade" id="staticBackdropLive" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLiveLabel" style="display: none;" _mstvisible="0" aria-hidden="true">
+    <div class="modal-dialog" _mstvisible="1">
+        <div class="modal-content" _mstvisible="2">
+            <div class="modal-header" _mstvisible="3">
+                <h1 class="modal-title fs-5" id="staticBackdropLiveLabel" _msttexthash="13222534" _msthash="634"
+                    _mstvisible="4">
+                    Room cancellation
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭" _mstaria-label="59709"
+                    _msthash="635" _mstvisible="4"></button>
+            </div>
+            <div class="modal-body" _mstvisible="3">
+                <p _msttexthash="171913482" _msthash="636" _mstvisible="4">Are you sure you want to cancel?</p>
+            </div>
+            <div class="modal-footer" _mstvisible="3">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" _msttexthash="5889065"
+                    _msthash="637" _mstvisible="4">No</button>
+                <button type="button" class="btn btn-primary" id="confirm-delete" _msttexthash="6373978" _msthash="638"
+                    _mstvisible="4">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-@TempData["MessageType"] alert-dismissible fade show" role="alert" id="message">
+        @TempData["Message"]
+    </div>
+}
+<script>
+    // Delay calling the function to hide the prompt message
+    function hideMessage() {
+        document.getElementById('message').style.display = 'none';
+    }
+    setTimeout(hideMessage, 2000); // The prompt message is automatically hidden after one second
+
+    $(document).ready(function () {
+        $('#staticBackdropLive').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var id = button.data('id');
+            $('#confirm-delete').data('id', id);
+        });
+
+        $('#confirm-delete').on('click', function () {
+            var id = $(this).data('id');
+            $.ajax({
+                url: '/Home/DeleteData', // Back-end API address
+                type: 'POST',
+                data: { 'id': id },
+                success: function (result) {
+                    if (result.success) {
+                        location.reload(); // Refresh the current page
+                    } else {
+                        alert(result.message); // An exception message is displayed
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(error); // An exception message is displayed
+                }
+            });
+        });
+    });
+
+</script>

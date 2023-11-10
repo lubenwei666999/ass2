@@ -1,0 +1,55 @@
+﻿<form action="/Home/CheckIn" method="post">
+    <div class="all" style="margin-top: 50px;">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Booking information</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Name</span>
+                        <span>@ViewBag.Current.UserInfo.Username</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Identity card number</span>
+                        <span>@ViewBag.Current.UserInfo.IDCardNumber</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Room type</span>
+                        <span>@ViewBag.Current.RoomType.Type</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Check-in date</span>
+                        <span>@ViewBag.Current.ChecklnDate.ToString("yyyy/MM/dd")</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Check-out date</span>
+                        <span>@ViewBag.Current.CheckOutDate.ToString("yyyy/MM/dd")</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Cope with</span>
+                        <span>@ViewBag.Current.TotalPrice.ToString("C0")</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Select a room</span>
+                        <select class="form-select form-select-sm" required style="width: 150px;" name="RoomID" id="room">
+                            <option value="">Please select a room</option>
+                            @foreach (var room in ViewBag.RoomList)
+                            {
+                                <option value="@room.RoomID">@room.RoomID</option>
+                            }
+                        </select>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>processor</span>
+                        <span>@ViewBag.User.Name</span>
+                        <input type="hidden" name="EmployeeID" value="@ViewBag.User.EmployeeID" />
+                    </li>
+                    <div style="text-align: center; margin-top: 10px;">
+                        <button class="btn btn-success" type="submit" name="CustomerID" value="@ViewBag.Current.CustomerID">Check in</button>
+                        <a class="btn btn-secondary" href="/Home/AdminIndex">Back to home page</a>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</form>

@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serenity Haven Hotel Management</title>
+    <link href="~/Css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Css/style66.css" rel="stylesheet" />
+    <link href="~/Css/footer.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .all {
+            width: 70%;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+
+        .card {
+            margin-top: 20px;
+            padding: 50px;
+            opacity: 0.9
+        }
+
+        form {
+            margin-bottom: 50px;
+            display: flex;
+            justify-content: center;
+        }
+
+            form > * {
+                margin: 0 5px;
+            }
+
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(../../img/pic1.jpg);
+        }
+
+        
+    </style>
+</head>
+
+<body>
+    <main class="d-flex flex-nowrap">
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px;"></div>
+        <nav class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px;height: 730px">
+            <a href="/Home/AdminIndex"
+               class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <svg class="bi pe-none me-2" width="40" height="32">
+                    <use xlink:href="#bootstrap"></use>
+                </svg>
+                <span class="fs-4">Serenity Haven Hotel Management</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="/Home/AdminIndex" class="nav-link a active" aria-current="page">
+                        <svg class="bi pe-none me-2" width="16" height="16">
+                            <use xlink:href="#home"></use>
+                        </svg>
+                        <font _mstmutation="1">check-in</font>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Home/Transactions" class="nav-link b link-body-emphasis">
+                        <svg class="bi pe-none me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2"></use>
+                        </svg>
+                        <font _mstmutation="1">Check-in information</font>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Home/Historical" class="nav-link c link-body-emphasis">
+                        <svg class="bi pe-none me-2" width="16" height="16">
+                            <use xlink:href="#grid"></use>
+                        </svg>
+                        <font _mstmutation="1">Historical order</font>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Home/Room" class="nav-link d link-body-emphasis">
+                        <svg class="bi pe-none me-2" width="16" height="16">
+                            <use xlink:href="#table"></use>
+                        </svg>
+                        <font _mstmutation="1">Room inquiry</font>
+                    </a>
+                </li>
+            </ul>
+            <hr>
+            <div class="dropdown">
+                <a href="AdminLogin" class="">Log out</a>
+            </div>
+        </nav>
+        <div class="container mt-3">
+            <!--Page specific content-->
+            @RenderBody()
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p class="colophon"> If you have any questions, please contact the manager.&emsp; Name :Lucy &emsp; Telephone number:18830470361&emsp;  e-mail:1102273077@qq.com </p>
+        </div>
+    </footer> <!-- .site-footer -->
+
+</body>
+
+</html>

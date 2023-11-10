@@ -1,0 +1,80 @@
+﻿@{ Layout = null; }
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign up</title>
+    <link href="~/Css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Css/login6.css" rel="stylesheet" />
+    <link href="~/Css/footer.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="login">
+                    <center><h3>Register a user</h3></center>
+                    <form action="/Home/SignUp" method="post" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="Username" class="form-label">Account number</label>
+                            <input name="Username" type="text" class="form-control" placeholder="Please enter your account number" required pattern="^[A-Za-z0-9_]{4,20}$" title="The account must consist of 4 to 20 letters, digits, or underscores">
+                            <div class="invalid-feedback">The account must consist of 4 to 20 letters, digits, or underscores</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Password" class="form-label">password</label>
+                            <input name="Password" type="password" class="form-control" placeholder="Please enter password" required pattern="^[A-Za-z0-9_]{6,20}$" title="The password must consist of 6 to 20 letters, digits, or underscores">
+                            <div class="invalid-feedback">The password must consist of 6 to 20 letters, digits, or underscores</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ConfirmPassword" class="form-label">Confirm password</label>
+                            <input name="ConfirmPassword" type="password" class="form-control" placeholder="Please enter password" required>
+                            <div class="invalid-feedback">The two passwords are different</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="IDCardNumber" class="form-label">Id number</label>
+                            <input name="IDCardNumber" type="text" class="form-control" placeholder="Please enter your ID number" required pattern="^\d{15}|\d{18}$" title="The ID number must consist of 15 or 18 digits">
+                            <div class="invalid-feedback">The ID number must consist of 15 or 18 digits</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="PhoneNumber" class="form-label">Mobile phone number</label>
+                            <input name="PhoneNumber" type="text" class="form-control" placeholder="Please enter your phone number" required pattern="^1[3-9]\d{9}$" title="The format of the mobile phone number is incorrect">
+                            <div class="invalid-feedback">The format of the mobile phone number is incorrect</div>
+                        </div>
+                        <div class="flex-sb">
+                            <button type="submit" class="btn btn-primary w-50">Sign up</button>&nbsp;
+                            <a class="btn btn-secondary w-50" href="/Home/Login">Back to login</a>
+                        </div>
+                    </form>
+                    <h6 style="color: #00000050;">We will strictly protect user privacy, please feel free to enter your personal information</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script>
+        // Standard browser
+        window.addEventListener('load', function () {
+            // Gets all the forms that need validation
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop traversal
+            Array.prototype.filter.call(forms, function (form) {
+                // Verify when submitted
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    </script>
+    <footer class="site-footer">
+        <div class="container">
+            <p class="colophon"> If you have any questions, please contact the manager.&emsp; Name :Lucy &emsp; Telephone number:18830470361&emsp;  e-mail:1102273077@qq.com </p>
+        </div>
+    </footer> <!-- .site-footer -->
+</body>
+</html>

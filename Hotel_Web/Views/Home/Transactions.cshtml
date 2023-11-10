@@ -1,0 +1,126 @@
+﻿<div class="card">
+    <form action="/Home/Transactions" method="get">
+        <h3>Check-in information</h3>
+        <select class="form-select form-select-sm" style="width:100px;" name="Type">
+            <option value="姓名">Name</option>
+        </select>
+        <input class="form-control form-control-sm" style="width:500px;" type="text" name="searchName" required>
+        <button class="btn btn-outline-primary" type="submit">inquire</button>
+    </form>
+    @if (!string.IsNullOrEmpty(Request.QueryString["searchName"]))
+    {
+        <div class="alert alert-info" role="alert">
+            Current search：@Request.QueryString["searchName"]
+        </div>
+    }
+
+    @foreach (var transaction in ViewBag.Transactions)
+    {
+        <!-- Display query results -->
+    }
+
+    <table class="table">
+        <tr>
+            <th>Check in person</th>
+            <th>Check-in time</th>
+            <th>Estimated time of departure</th>
+            <th>Type of house</th>
+            <th>The room number</th>
+            <th>Handling time</th>
+            <th>processor</th>
+            <th>Current state</th>
+            <th></th>
+        </tr>
+        @foreach (var item in ViewBag.Transactions)
+        {
+            <tr>
+                <td>@item.Customer.UserInfo.Username</td>
+                <td>@item.Customer.ChecklnDate.ToString("yyyy-MM-dd")</td>
+                <td>@item.Customer.CheckOutDate.ToString("yyyy-MM-dd")</td>
+                <td>@item.Customer.RoomType.Type</td>
+                <td>@item.Customer.RoomID</td>
+                <td>@item.TransactionDate</td>
+                <td>@item.Employee.Name</td>
+                <td>@item.Type</td>
+
+                <td>
+                    <a class="btn btn-outline-primary" href="/Home/Stay?CustomerID=@item.Customer.CustomerID">Stay over</a>
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdropLive" data-id="@item.TransactionID">
+                        Check out
+                    </button>
+                </td>
+            </tr>
+        }
+    </table>
+    <div role="group" style="text-align:center;">
+        <button type="button" class="btn btn-secondary @(ViewBag.CurrentPage > 1 ? "" : "disabled")"
+                onclick="location.href='@Url.Action("Transactions", new { page = ViewBag.CurrentPage - 1, pageSize = ViewBag.Transactions.PageSize })'">
+            Previous
+        </button>
+        @for (int i = 1; i <= ViewBag.PageCount; i++)
+        {
+            <button type="button" class="btn btn-secondary @(i == ViewBag.CurrentPage ? "active" : "")"
+                    onclick="location.href='@Url.Action("Transactions", new { page = i, pageSize = ViewBag.Transactions.PageSize })'">
+                @i
+            </button>
+        }
+        <button type="button" class="btn btn-secondary @(ViewBag.CurrentPage < ViewBag.PageCount ? "" : "disabled")"
+                onclick="location.href='@Url.Action("Transactions", new { page = ViewBag.CurrentPage + 1, pageSize = ViewBag.Transactions.PageSize })'">
+            Next page
+        </button>
+    </div>
+</div>
+<div class="modal fade" id="staticBackdropLive" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLiveLabel" style="display: none;" _mstvisible="0" aria-hidden="true">
+    <div class="modal-dialog" _mstvisible="1">
+        <div class="modal-content" _mstvisible="2">
+            <div class="modal-header" _mstvisible="3">
+                <h1 class="modal-title fs-5" id="staticBackdropLiveLabel" _msttexthash="13222534" _msthash="634"
+                    _mstvisible="4">
+                    Room cancellation
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭" _mstaria-label="59709"
+                    _msthash="635" _mstvisible="4"></button>
+            </div>
+            <div class="modal-body" _mstvisible="3">
+                <p _msttexthash="171913482" _msthash="636" _mstvisible="4">Are you sure you want to cancel?</p>
+            </div>
+            <div class="modal-footer" _mstvisible="3">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" _msttexthash="5889065"
+                    _msthash="637" _mstvisible="4">No</button>
+                <button type="button" class="btn btn-primary" id="confirm-delete">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $(".a").removeClass("active")
+        $(".b").addClass("active")
+        // Bind an event to the confirmation button
+        $('#confirm-delete').on('click', function () {
+            var transactionId = $('#staticBackdropLive').data('id');
+            console.log(`提交退房请求，TransactionID=${transactionId}`);
+            // Send ajax requests to the back end
+            $.ajax({
+                url: '/Home/Checkout',
+                type: 'POST',
+                data: { TransactionID: transactionId },
+                success: function (data) {
+                    if (data.success) {
+                        location.reload(); // Refresh the current page
+                    }
+                }
+            });
+
+        });
+
+        // Bind an event to the modal box to get the transaction record ID corresponding to the click of the check out button
+        $('#staticBackdropLive').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Gets the button that triggers the mode box
+            var transactionId = button.data('id'); // Get the transaction record ID from the button
+            $(this).data('id', transactionId); // Store the transaction record ID in the modal box
+        });
+    })
+</script>

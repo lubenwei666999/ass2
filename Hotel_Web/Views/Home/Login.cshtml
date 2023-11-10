@@ -1,0 +1,70 @@
+﻿@{Layout = null;}
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+    <link href="~/Css/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+    <link href="~/Css/login6.css" rel="stylesheet" />
+    <link href="~/Css/footer.css" rel="stylesheet" />
+</head>
+
+<body>
+    <main class="d-flex flex-nowrap">
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="login">
+                        <center>
+                            <h3>Serenity Haven Hotel</h3>
+                        </center>
+                        <form action="/Home/Login" method="post">
+                            <div class="mb-3">
+                                <label for="inputUid" class="form-label">Account</label>
+                                <input name="Username" type="text" class="form-control" placeholder="Please enter your account number" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputPassword" class="form-label">password</label>
+                                <input name="Password" type="password" class="form-control" placeholder="Please enter password" required>
+                            </div>
+                            <div class="form-check mb-3 flex-sb">
+                                <div>
+                                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                                    <label class="form-check-label" for="rememberMe">
+                                        Remember me
+                                    </label>
+                                </div>
+                                <a href="/Home/SignUp">No account? Register now</a>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Log in</button>
+                        </form>
+                        <h6 style="color: #00000050;">By continuing, you mean that you have read and agree to our Terms and Conditions and Privacy Statement.</h6>
+                        <div class="flex-sb">
+                            <a href="/Home/AdminLogin">You're the administrator?</a>
+                            @Html.ValidationSummary()
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg" style="background: url(/img/pic1.jpg) ">
+        </div>
+    </main>
+
+
+    <footer class="site-footer">
+        <div class="container">
+            <p class="colophon"> If you have any questions, please contact the manager.&emsp; Name :Lucy &emsp; Telephone number:18830470361&emsp;  e-mail:1102273077@qq.com </p>
+        </div>
+    </footer> <!-- .site-footer -->
+
+
+</body>
+
+</html>

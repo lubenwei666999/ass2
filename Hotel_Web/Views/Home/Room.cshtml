@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Room";
+    Layout = "~/Views/Shared/master.cshtml";
+}
+<div class="card">
+    <form action="/Home/Room" method="get">
+        <h3>Room inquiry</h3>
+        <select class="form-select form-select-sm" required style="width:500px;" name="RoomType">
+            <option value="">All types</option>
+            @foreach (var type in ViewBag.RoomTypes)
+            {
+                <option value="@type">@type</option>
+            }
+        </select>
+        <input class="btn btn-outline-primary" type="submit" value="inquire">
+        <a class="btn btn-outline-secondary" href="/Home/AddRoom">Add room</a>
+    </form>
+    <table class="table">
+        <tr>
+            <th>Room type</th>
+            <th>Room number</th>
+            <th>Current state</th>
+            <th>Current price</th>
+            <th></th>
+        </tr>
+        @foreach (var item in ViewBag.Room)
+        {
+            <tr>
+                <td>@item.RoomType.Type</td>
+                <td>@item.RoomID</td>
+                <td>@item.Status</td>
+                <td>@item.RoomType.Price.ToString("C0") /night</td>
+                <td><a class="btn btn-outline-primary" href="UpdateRoom?RoomID=@item.RoomID">edit</a></td>
+            </tr>
+        }
+    </table>
+    <div role="group" style="text-align:center;">
+        <button type="button" class="btn btn-secondary @(ViewBag.CurrentPage > 1 ? "" : "disabled")"
+                onclick="location.href='@Url.Action("Room", new { page = ViewBag.CurrentPage - 1, pageSize = ViewBag.Room.PageSize })'">
+            Previous
+        </button>
+        @for (int i = 1; i <= ViewBag.PageCount; i++)
+        {
+            <button type="button" class="btn btn-secondary @(i == ViewBag.CurrentPage ? "active" : "")"
+                onclick="location.href='@Url.Action("Room", new { page = i, pageSize = ViewBag.Room.PageSize })'">
+                @i
+            </button>
+        }
+    <button type="button" class="btn btn-secondary @(ViewBag.CurrentPage < ViewBag.PageCount ? "" : "disabled")"
+            onclick="location.href='@Url.Action("Room", new { page = ViewBag.CurrentPage + 1, pageSize = ViewBag.Room.PageSize })'">
+        Next page
+    </button>
+    </div>
+</div>
+<script>
+    $(".a").removeClass("active")
+    $(".d").addClass("active")
+</script>

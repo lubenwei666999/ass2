@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Room";
+    Layout = "~/Views/Shared/master.cshtml";
+}
+<div class="card">
+    <table class="table">
+        <tr>
+            <th>Current state</th>
+            <th>Resident ID card</th>
+            <th>Check-in time</th>
+            <th>Estimated time of departure</th>
+            <th>Type of house</th>
+            <th>The room number</th>
+            <th>Handling time</th>
+            <th>processor</th>
+
+            <th></th>
+        </tr>
+        @foreach (var item in ViewBag.historical)
+        {
+            <tr>
+                <td>@item.Type</td>
+                <td>@item.Customer.CheckInID</td>
+                <td>@item.Customer.ChecklnDate.ToString("yyyy-MM-dd")</td>
+                <td>@item.Customer.CheckOutDate.ToString("yyyy-MM-dd")</td>
+                <td>@item.Customer.RoomType.Type</td>
+                <td>@item.Customer.RoomID</td>
+                <td>@item.TransactionDate</td>
+                <td>@item.Employee.Name</td>
+
+            </tr>
+        }
+    </table>
+
+    <div role="group" style="text-align:center;">
+        <button type="button" class="btn btn-secondary @(ViewBag.CurrentPage > 1 ? "" : "disabled")"
+                onclick="location.href='@Url.Action("Historical", new { page = ViewBag.CurrentPage - 1, pageSize = ViewBag.historical.PageSize })'">
+            Previous
+        </button>
+        @for (int i = 1; i <= ViewBag.PageCount; i++)
+        {
+            <button type="button" class="btn btn-secondary @(i == ViewBag.CurrentPage ? "active" : "")"
+                onclick="location.href='@Url.Action("Historical", new { page = i, pageSize = ViewBag.historical.PageSize })'">
+                @i
+            </button>
+        }
+    <button type="button" class="btn btn-secondary @(ViewBag.CurrentPage < ViewBag.PageCount ? "" : "disabled")"
+            onclick="location.href='@Url.Action("Historical", new { page = ViewBag.CurrentPage + 1, pageSize = ViewBag.historical.PageSize })'">
+        Next page
+    </button>
+    </div>
+</div>
+<script>
+    $(".a").removeClass("active")
+    $(".c").addClass("active")
+</script>

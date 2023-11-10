@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Css/footer.css" rel="stylesheet" />
+    <title>UpdateRoom</title>
+    <style>
+        .card {
+            margin-top: 25vh;
+        }
+
+        form {
+            width: 100%;
+            display: block;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <form action="/Home/UpdateRoom" method="post">
+            <h5 class="card-title">Room information</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Current room number</span>
+                    <span>@ViewBag.Room.RoomID</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Original room type</span>
+                    <span>@ViewBag.Room.RoomType.Type</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Select the current room type</span>
+                    <select class="form-select form-select-sm" required style="width: 150px;" name="TypeID" id="room">
+                        <option value="">Please select a room</option>
+                        @foreach (var type in ViewBag.Types)
+                        {
+                            <option value="@type.TypeID">@type.Type</option>
+                        }
+                    </select>
+                </li>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn btn-success" type="submit" name="RoomID"
+                            value="@ViewBag.Room.RoomID">
+                        Confirm modification
+                    </button>
+                    <a class="btn btn-secondary" href="/Home/Room">Return to room query</a>
+                </div>
+        </form>
+    </div>
+    <footer class="site-footer">
+        <div class="container">
+            <p class="colophon"> If you have any questions, please contact the manager.&emsp; Name :Lucy &emsp; Telephone number:18830470361&emsp;  e-mail:1102273077@qq.com </p>
+        </div>
+    </footer> <!-- .site-footer -->
+</body>
+<script>
+    $(".a").removeClass("active")
+    $(".d").addClass("active")
+</script>
+
+</html>

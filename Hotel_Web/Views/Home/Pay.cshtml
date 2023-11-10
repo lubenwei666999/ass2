@@ -1,0 +1,183 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>reserve</title>
+    <!-- Introduce the Bootstrap style -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.0/css/bootstrap.min.css" />
+    <link href="~/Css/User666.css" rel="stylesheet" />
+    <link href="~/Css/footer.css" rel="stylesheet" />
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <style>
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(../../img/pexels-pixabay-260922.jpg);
+        }
+
+        .all {
+            width: 70%;
+            margin: 0 auto;
+            margin-top: 75px;
+            display: flex;
+        }
+
+        .pay-box {
+            padding: 20px;
+            border: 1px solid #00000020;
+            width: 60%;
+            border-radius: 10px 0 0px 10px;
+            background: white;
+        }
+
+            .pay-box input {
+                margin: 8px 0;
+            }
+    </style>
+</head>
+
+<body>
+    <div class="all">
+        <div class="pay-box">
+            <form action="/Home/Pay" method="post">
+                <div class="row">
+                    <h3>Booking information</h3>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Date of entry and departure:</label>
+                        <div class="col-sm-9">
+                            <input id="ChecklnDate" type="date" name="ChecklnDate"
+                                   value="@ViewBag.ChecklnDate.ToString("yyyy-MM-dd")">
+                            to <input id="checkoutDate" type="date" name="checkoutDate"
+                                      value="@ViewBag.checkoutDate.ToString("yyyy-MM-dd")">
+                            <span class="total">1 night in total</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-9">
+                            <fieldset disabled="">
+                                <span class="numStock">
+                                    <span>Room Type:</span> <input class="" type="text" value="@ViewBag.roomType.Type" />
+                                </span>
+                            </fieldset>
+                            <input class="Price" name="totalPrice" type="hidden" value="@ViewBag.roomType.Price">
+                            <span class="Price">Amount to ￥ @ViewBag.roomType.Price </span>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="box">
+                    <h3>Check-in information</h3>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Guests:</label>
+                        <div class="col-sm-9">
+                            <fieldset disabled="">
+                                <input type="text" name="Username" value="@ViewBag.CurrentUser.Username"
+                                       class="form-control">
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Identification card</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="iDCardNumber" value="@ViewBag.CurrentUser.IDCardNumber"
+                                   class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="pay">
+                    <button class="btn btn-primary" type="submit" name="roomTypeID"
+                            value="@ViewBag.roomType.TypeID">
+                        Book now
+                    </button>
+                    <a class="btn btn-secondary" href="/Home/Index">Back to home page</a>
+                </div>
+            </form>
+        </div>
+        <div class="img">
+            <img src="https://pavo.elongstatic.com/i/Hotel870_470/nw_XuzYNQ7RAc.jpg" alt="">
+        </div>
+    </div>
+    <footer class="site-footer">
+        <div class="container">
+            <p class="colophon"> If you have any questions, please contact the manager.&emsp; Name :Lucy &emsp; Telephone number:18830470361&emsp;  e-mail:1102273077@qq.com </p>
+        </div>
+    </footer> <!-- .site-footer -->
+</body>
+<script>
+    $(function () {
+        // Get check in time and check out time input boxes
+        var ChecklnDateInput = $("#ChecklnDate");
+        var checkoutDateInput = $("#checkoutDate");
+
+        // Listen for changes in the check-out time input box
+        checkoutDateInput.on("change", function () {
+            // Get values for check-in time and check-out time
+            var ChecklnDateValue = ChecklnDateInput.val();
+            var checkoutDateValue = checkoutDateInput.val();
+
+            // If the check-out time is less than or equal to the check-in time, the check-out time is set to the check-in time plus one day
+            if (checkoutDateValue <= ChecklnDateValue) {
+                var nextDay = new Date(ChecklnDateValue);
+                nextDay.setDate(nextDay.getDate() + 1);
+                checkoutDateInput.val(nextDay.toISOString().substring(0, 10));
+            }
+
+            // Count how many nights
+            calculateNightsAndPrice();
+        });
+
+        // Listen for changes in the check-in time input box
+        ChecklnDateInput.on("change", function () {
+            // Gets the value of check-in time
+            var ChecklnDateValue = ChecklnDateInput.val();
+
+            // Check that the date entered is earlier than or equal to the current day's date
+            var today = new Date();
+            var selectedDate = new Date(ChecklnDateValue);
+            if (selectedDate < today) {
+                // If so, set the input date to today's date
+                ChecklnDateInput.val(today.toISOString().substring(0, 10));
+            }
+
+            // If the check-out time equals the check-in time, force the check-out time to be the check-in time plus one day
+            if (checkoutDateInput.val() === ChecklnDateValue) {
+                var nextDay = new Date(ChecklnDateValue);
+                nextDay.setDate(nextDay.getDate() + 1);
+                checkoutDateInput.val(nextDay.toISOString().substring(0, 10));
+            }
+
+            // If the check-out time is earlier than the check-in time, the check-out time is set to the check-in time plus one day
+            if (checkoutDateInput.val() < ChecklnDateValue) {
+                var nextDay = new Date(ChecklnDateValue);
+                nextDay.setDate(nextDay.getDate() + 1);
+                checkoutDateInput.val(nextDay.toISOString().substring(0, 10));
+            }
+
+            // Count how many nights
+            calculateNightsAndPrice();
+        });
+
+        // After the page is loaded, the total number of nights calculated is displayed
+        calculateNightsAndPrice();
+
+        function calculateNightsAndPrice() {
+            var ChecklnDateValue = ChecklnDateInput.val();
+            var checkoutDateValue = checkoutDateInput.val();
+            var roomPrice = "@ViewBag.roomType.Price";
+            var ChecklnDate = new Date(ChecklnDateValue);
+            var checkoutDate = new Date(checkoutDateValue);
+            var nights = Math.floor((checkoutDate - ChecklnDate) / (24 * 60 * 60 * 1000)) || 1;
+            $(".total").text("total" + nights + "night");
+            $(".Price").text("total ￥" + (nights * parseInt(roomPrice)).toLocaleString() + " ");
+            $(".Price").val((nights * parseInt(roomPrice)));
+        }
+    });
+</script>
+
+</html>

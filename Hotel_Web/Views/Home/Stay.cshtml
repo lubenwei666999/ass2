@@ -1,0 +1,71 @@
+﻿<form action="/Home/Stay" method="post">
+    <div class="all" style="margin-top: 50px;">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Booking information</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>name</span>
+                        <span>@ViewBag.Customer.UserInfo.Username</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Identity card number</span>
+                        <span>@ViewBag.Customer.UserInfo.IDCardNumber</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Room type</span>
+                        <span>@ViewBag.Customer.RoomType.Type</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Check-in date</span>
+                        <span>@ViewBag.Customer.ChecklnDate.ToString("yyyy/MM/dd")</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Check-out date</span>
+                        <span><span><input type="date" required name="CheckOutDate"></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Select  room</span>
+                        <span>@ViewBag.Customer.RoomID</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Cope with</span>
+                        <span>@ViewBag.Customer.TotalPrice.ToString("C0")</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>processor</span>
+                        <span>@ViewBag.User.Name</span>
+                    </li>
+                    <div style="text-align: center; margin-top: 10px;">
+                        <button class="btn btn-success" type="submit" name="CustomerID"
+                                value="@ViewBag.Customer.CustomerID">
+                            Extend one's stay
+                        </button>
+                        <a class="btn btn-secondary" href="/Home/Transactions">Back to home page</a>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</form>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".a").removeClass("active")
+        $(".b").addClass("active")
+        var dateInput = $('input[name="CheckOutDate"]');
+        var today = new Date();
+        var tomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+        var dd = tomorrow.getDate();
+        var mm = tomorrow.getMonth() + 1; // January is 0!
+        var yyyy = tomorrow.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        tomorrow = yyyy + '-' + mm + '-' + dd;
+        dateInput.attr('min', tomorrow);
+    });
+</script>

@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/User.cshtml";
+}
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Booking successful</title>
+    <!-- Introduces the Bootstrap style file -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Css/footer.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+          integrity="sha512-600Fv/q0ZcXqMY1u8tZIlR2V4HtoZxeUZ03+7+6kyczJN2pCgTidW0SleK8AnuXzHnQM7cyzrR6imRmSlThQdA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(../../img/pexels-pixabay-260922.jpg);
+        }
+
+        .all {
+            width: 70%;
+            margin: 0 auto;
+            margin-top: 70px;
+            display: flex;
+        }
+
+        .container {
+            border-radius: 10px;
+            padding: 20px 0;
+            background: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="all">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="mt-5 text-center">
+                        <svg t="1684478534674" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                             xmlns="http://www.w3.org/2000/svg" p-id="2557" width="64" height="64">
+                            <path d="M874.119618 149.859922A510.816461 510.816461 0 0 0 511.997 0.00208a509.910462 509.910462 0 0 0-362.119618 149.857842c-199.817789 199.679789-199.817789 524.581447 0 724.260236a509.969462 509.969462 0 0 0 362.119618 149.857842A508.872463 508.872463 0 0 0 874.119618 874.120158c199.836789-199.679789 199.836789-524.581447 0-724.260236zM814.94268 378.210681L470.999043 744.132295a15.359984 15.359984 0 0 1-5.887994 4.095996c-1.751998 1.180999-2.913997 2.362998-5.276994 2.913997a34.499964 34.499964 0 0 1-13.469986 2.914997 45.547952 45.547952 0 0 1-12.897986-2.303998l-4.095996-2.363997a45.291952 45.291952 0 0 1-7.009992-4.095996l-196.902793-193.789796a34.126964 34.126964 0 0 1-10.555989-25.186973c0-9.37399 3.583996-18.74698 9.98399-25.186974a36.429962 36.429962 0 0 1 50.372947 0l169.98382 167.423824L763.389735 330.220732a37.059961 37.059961 0 0 1 50.371947-1.732998 33.647965 33.647965 0 0 1 11.165988 25.186973 35.544963 35.544963 0 0 1-9.98399 24.575974v-0.04z m0 0"
+                                  fill="#52C41A" p-id="2558"></path>
+                        </svg> Congratulations, booking success!
+                    </h1>
+
+                    <div class="card mt-5">
+                        <div class="card-header">
+                            Booking details
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item">subscriber:@Model.UserInfo.Username</li>
+                                <li class="list-group-item">Order Number:@Model.CustomerID</li>
+                                <li class="list-group-item">Check-in ID card:@Model.CheckInID</li>
+                                <li class="list-group-item">Room Type:@Model.RoomType.Type</li>
+                                <li class="list-group-item">Check-in Time:@Model.ChecklnDate.ToString("yyyy/MM/dd")</li>
+                                <li class="list-group-item">Check-out time:@Model.CheckOutDate.ToString("yyyy/MM/dd")</li>
+                                <li class="list-group-item">Total price:@Model.TotalPrice.ToString("C0")</li>
+                                <li class="list-group-item">Check-in: Offline check-in</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-5">
+                        <a href="/Home/Index" class="btn btn-primary">Back to home page</a>
+                        <a href="/Home/OrderRecord">View all orders</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Introduce the Bootstrap JavaScript file -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+    <footer class="site-footer">
+        <div class="container">
+            <p class="colophon"> If you have any questions, please contact the manager.&emsp; Name :Lucy &emsp; Telephone number:18830470361&emsp;  e-mail:1102273077@qq.com </p>
+        </div>
+    </footer> <!-- .site-footer -->
+</body>
+
+</html>
